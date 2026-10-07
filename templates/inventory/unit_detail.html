@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ unit.unit_id }}{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="panel">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+          <div class="unit-group">{{ unit.blood_group }}</div>
+          <div class="unit-id">{{ unit.unit_id }}</div>
+        </div>
+        <span class="status-badge status-{{ unit.status }} fs-6">{{ unit.get_status_display }}</span>
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3">
+          <div class="small text-muted">Component</div>
+          <div class="fw-semibold">{{ unit.get_component_type_display }}</div>
+        </div>
+        <div class="col-6 mb-3">
+          <div class="small text-muted">Collection Date</div>
+          <div class="fw-semibold">{{ unit.collection_date }}</div>
+        </div>
+        <div class="col-6 mb-3">
+          <div class="small text-muted">Expiry Date</div>
+          <div class="fw-semibold">{{ unit.expiry_date }}{% if unit.is_expired %} <span class="text-danger">(expired)</span>{% endif %}</div>
+        </div>
+        <div class="col-6 mb-3">
+          <div class="small text-muted">Added By</div>
+          <div class="fw-semibold">{{ unit.created_by|default:"—" }}</div>
+        </div>
+      </div>
+
+      {% if unit.status == 'RESERVED' and unit.reservation %}
+      <div class="alert alert-warning py-2 small mb-0">
+        Reserved for <strong>{{ unit.reservation.patient_name }}</strong>
+        {% if unit.reservation.ward_or_department %} · {{ unit.reservation.ward_or_department }}{% endif %}
+        on {{ unit.reservation.reserved_at|date:"d M Y, H:i" }}.
+      </div>
+      {% endif %}
+      {% if unit.status == 'ISSUED' and unit.issue_record %}
+      <div class="alert alert-info py-2 small mb-0">
+        Issued to <strong>{{ unit.issue_record.issued_to }}</strong> on {{ unit.issue_record.issued_at|date:"d M Y, H:i" }}.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="panel">
+      <div class="panel-title">Actions</div>
+      <div class="d-grid gap-2">
+        {% if unit.can_be_reserved %}
+          <a href="{% url 'inventory:unit_reserve' unit.pk %}" class="btn btn-warning">Reserve Unit</a>
+        {% endif %}
+        {% if unit.status == 'RESERVED' %}
+          <a href="{% url 'inventory:unit_issue' unit.pk %}" class="btn btn-primary">Issue to Patient</a>
+          <form method="post" action="{% url 'inventory:unit_release' unit.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-secondary w-100" type="submit">Release Reservation</button>
+          </form>
+        {% endif %}
+        {% if user.is_admin %}
+          <a href="{% url 'inventory:unit_delete' unit.pk %}" class="btn btn-outline-danger">Delete Unit</a>
+        {% endif %}
+        <a href="{% url 'inventory:unit_list' %}" class="btn btn-link">← Back to Inventory</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

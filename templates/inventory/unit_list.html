@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Inventory{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h4 class="fw-bold mb-0">Inventory</h4>
+  <a href="{% url 'inventory:unit_add' %}" class="btn btn-danger">+ Add Blood Unit</a>
+</div>
+
+<form method="get" class="panel mb-3 d-flex flex-wrap gap-2 align-items-end">
+  <div>
+    <label class="form-label small mb-1">Blood Group</label>
+    {{ filter_form.blood_group }}
+  </div>
+  <div>
+    <label class="form-label small mb-1">Component</label>
+    {{ filter_form.component_type }}
+  </div>
+  <div>
+    <label class="form-label small mb-1">Status</label>
+    {{ filter_form.status }}
+  </div>
+  <div class="flex-grow-1">
+    <label class="form-label small mb-1">Search unit ID</label>
+    {{ filter_form.q }}
+  </div>
+  <button type="submit" class="btn btn-sm btn-outline-dark">Filter</button>
+  <a href="{% url 'inventory:unit_list' %}" class="btn btn-sm btn-link">Reset</a>
+</form>
+
+<div class="row g-3">
+  {% for unit in page_obj %}
+  <div class="col-6 col-md-4 col-lg-3">
+    <a href="{% url 'inventory:unit_detail' unit.pk %}" class="text-decoration-none">
+      <div class="unit-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="unit-group">{{ unit.blood_group }}</div>
+          <span class="status-badge status-{{ unit.status }}">{{ unit.get_status_display }}</span>
+        </div>
+        <div class="unit-id mt-1">{{ unit.unit_id }}</div>
+        <div class="small text-muted mt-2">{{ unit.get_component_type_display }}</div>
+        <div class="small text-muted">Expires {{ unit.expiry_date }}</div>
+      </div>
+    </a>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="panel text-center text-muted py-5">No units match these filters.</div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if page_obj.has_other_pages %}
+<nav class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

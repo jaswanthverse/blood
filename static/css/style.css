@@ -1,0 +1,115 @@
+:root {
+  --brand: #b91c1c;
+  --brand-dark: #7f1d1d;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --bg: #f6f7fb;
+  --card-border: #e5e7eb;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.app-navbar {
+  background: linear-gradient(120deg, var(--brand-dark), var(--brand));
+  padding: 0.75rem 0;
+}
+.app-navbar .navbar-brand {
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 8px;
+  font-weight: 800;
+}
+.app-navbar .nav-link {
+  color: rgba(255,255,255,0.82);
+  font-weight: 500;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.app-navbar .nav-link:hover { color: #fff; background: rgba(255,255,255,0.12); }
+.app-navbar .nav-link.active { color: #fff; background: rgba(255,255,255,0.22); }
+
+.user-chip {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: #fff; font-size: 0.9rem; font-weight: 500;
+}
+.user-chip-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; color: var(--brand-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem;
+}
+.role-badge {
+  font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+  background: rgba(255,255,255,0.2);
+}
+
+.app-main { min-height: calc(100vh - 64px); }
+
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(31,36,48,0.08);
+}
+.stat-card .stat-value { font-size: 2rem; font-weight: 700; line-height: 1; }
+.stat-card .stat-label { color: var(--muted); font-size: 0.85rem; font-weight: 500; margin-top: 0.35rem; }
+.stat-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+}
+.panel-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.9rem; }
+
+.status-badge { font-size: 0.75rem; padding: 0.3rem 0.65rem; border-radius: 999px; font-weight: 600; }
+.status-AVAILABLE { background: #dcfce7; color: #166534; }
+.status-RESERVED  { background: #fef3c7; color: #92400e; }
+.status-ISSUED    { background: #e0e7ff; color: #3730a3; }
+.status-EXPIRED   { background: #fee2e2; color: #991b1b; }
+
+.unit-card {
+  background: #fff; border: 1px solid var(--card-border); border-radius: 12px;
+  padding: 1rem 1.1rem; transition: box-shadow 0.15s ease, transform 0.15s ease;
+  height: 100%;
+}
+.unit-card:hover { box-shadow: 0 8px 20px rgba(31,36,48,0.08); transform: translateY(-1px); }
+.unit-card .unit-id { font-family: Consolas, monospace; font-size: 0.8rem; color: var(--muted); }
+.unit-card .unit-group { font-size: 1.5rem; font-weight: 700; color: var(--brand-dark); }
+.unit-group { font-size: 1.5rem; font-weight: 700; color: var(--brand-dark); }
+.unit-id { font-family: Consolas, monospace; font-size: 0.8rem; color: var(--muted); }
+
+.auth-shell {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(1200px 600px at 20% -10%, #fee2e2 0%, transparent 60%), var(--bg);
+}
+.auth-card {
+  background: #fff; border-radius: 18px; padding: 2.5rem;
+  box-shadow: 0 24px 48px rgba(31,36,48,0.12);
+  width: 100%; max-width: 400px;
+}
